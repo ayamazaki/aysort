@@ -1,0 +1,32 @@
+<%= form_with(model: micropost, local: true) do |form| %>
+
+<div class="field">
+    <%= form.label :question %>
+    <%= form.text_field :question, id: :micropost_question %>
+</div>
+
+<div class="field">
+    <%= form.label :answer %>
+    <%= form.text_field :answer, id: :micropost_answer %>
+</div>
+
+<div class="field">
+    <%= form.label :value1 %>
+    <%= form.text_field :value1, id: :micropost_value1 %>
+</div>
+
+<div class="field">
+    <%= form.label :value2 %>
+    <%= form.text_field :value2 ,value: @time, id: :micropost_value2 %>
+</div>
+
+<div class="field">
+    <%= form.label :value3 %>
+    <%= form.text_field :value3, id: :micropost_value2 %>
+</div>
+
+<div class="actions">
+    <%= form.submit %>
+</div>
+
+<% end %>

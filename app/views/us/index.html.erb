@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Us</h1>
+
+<div> 
+
+<%= form_tag(us_path, method: "get") do %>
+<%= label_tag :name, "名前" %><%= text_field_tag :name, params[:name] %>
+<%= label_tag :name, "性別" %>
+<%= select_tag :gender, options_for_select(U.genders), include_blank: true %>
+
+<%= submit_tag "検索" %>
+<% end %>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Birthday</th>
+      <th>Hometown</th>
+      <th>Remarks</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @us.each do |u| %>
+      <tr>
+        <td><%= u.name %></td>
+        <td><%= u.age %></td>
+        <td><%= u.gender %></td>
+        <td><%= u.birthday %></td>
+        <td><%= u.hometown %></td>
+        <td><%= u.remarks %></td>
+        <td><%= link_to 'Show', u %></td>
+        <td><%= link_to 'Edit', edit_u_path(u) %></td>
+        <td><%= link_to 'Destroy', u, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New U', new_u_path %>

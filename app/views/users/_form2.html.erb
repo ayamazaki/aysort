@@ -1,0 +1,80 @@
+<%= form_with(model: user, remote: true) do |form| %>
+  <% if user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<script>
+
+function hyoji1(num)
+{
+  if (num == 0)
+  {
+    document.getElementById("disp1").style.display="block";
+  }
+  else
+  {
+    document.getElementById("disp1").style.display="none";
+  }
+}
+
+</script>
+
+  <div class="field" >
+    <%= form.label :word  %>
+    <%= form.text_field :name, id: :user_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :meaning %>
+    <%= form.text_field :email, id: :user_email %>
+  </div>
+
+ <div class="field">
+    <%= form.label :result %>
+    <%= form.text_field :value1,value:'-', id: :user_value1 %>
+  </div> 
+
+  <div class="field">
+  <%= form.label :lastmodified %>
+    <%= form.datetime_field :value2  %>
+  </div>
+
+    <div class="field">
+    <%= select_tag('value2',options_from_collection_for_select(@users,:value2,:value2,'value2'))  %>
+  </div>
+
+  <div class="field">
+    <%= form.label :value2 %>
+    <%= form.text_field :value2, id: :user_value2 %>
+  </div>
+
+  <div class="field" >
+  <label><%= form.radio_button :value1 ,'aiueo', id: :user_value1 %>aiueo</label>
+  <label><%= form.radio_button :value1 ,'aiueo', id: :user_value1 %>kakiku</label>
+  </div>
+
+
+  <div class="field" >
+    <%= form.label :value3 %>
+    <%= form.text_field :value3 , id: :user_value3 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit  %>
+  </div>
+<% end %>
+
+
+<input type="button" value="解説表示" onclick="hyoji1(0)">
+<input type="button" value="解説非表示" onclick="hyoji1(1)">
+<input type="checkbox" value="1">
+
+<div id="disp1"></div><br>

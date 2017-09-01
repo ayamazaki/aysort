@@ -1,0 +1,48 @@
+<%= form_with(model: u, local: true) do |form| %>
+  <% if u.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(u.errors.count, "error") %> prohibited this u from being saved:</h2>
+
+      <ul>
+      <% u.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :u_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :age %>
+    <%= form.number_field :age, id: :u_age %>
+  </div>
+
+  <div class="field">
+    <%= form.label :gender %>
+<!--     <%= form.number_field :gender, id: :u_gender %> -->
+<%= form.select :publish, {:unknown=> 0,'1'=> 1,'female'=> 2,'other'=> 9 }%>
+  </div>
+
+  <div class="field">
+    <%= form.label :birthday %>
+    <%= form.date_select :birthday, id: :u_birthday %>
+  </div>
+
+  <div class="field">
+    <%= form.label :hometown %>
+    <%= form.text_field :hometown, id: :u_hometown %>
+  </div>
+
+  <div class="field">
+    <%= form.label :remarks %>
+    <%= form.text_area :remarks, id: :u_remarks %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,128 @@
+<p id="notice"><%= notice %></p>
+<head>
+</head>
+<h1>Word list Home</h1>
+
+<br>
+<br>
+
+<strong>新規単語登録</strong>
+<div><%= link_to 'New Word', new_user_path %></div>
+
+<br>
+<br>
+
+
+<strong>単語検索</strong>
+
+<div> 
+<%= form_tag(users_path, method: "get") do %>
+<%= label_tag :name, "問題文検索" %><%= text_field_tag :name, params[:name] %>
+<%= submit_tag "検索" %>
+<% end %>
+
+</div>
+
+
+<div>
+<%= form_tag(users_path, method: "get") do %>
+<%= label_tag :name, "正解不正解検索" %>
+<%= select_tag :value1, options_for_select({'◯'=>'◯','△'=>'△','x'=>'x','-'=>'-'}), include_blank: true %>
+<%= submit_tag "検索" %>
+<% end %>
+</div>
+
+<div>
+<%= form_tag(users_path, method: "get") do %>
+<%= label_tag :name, "最近やってないもの検索" %>
+<%= text_field_tag :value5 ,@time4 %>
+<%= submit_tag "検索" %>
+<% end %>
+</div>
+
+<div>
+<%= form_tag(users_path, method: "get") do %>
+<%= label_tag :name, "2回連◯/△/xなやつ検索" %>
+<%= select_tag :value6, options_for_select({'◯'=>'◯','△'=>'△','x'=>'x','-'=>'-'}), include_blank: true %>
+<%= submit_tag "検索" %>
+<% end %>
+</div>
+
+
+<br>
+<br>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>問題</th>
+      <th>解答</th>
+      <th>解答</th>
+      <th>正解不正解</th>
+      <th>最終演習時刻</th>
+      <th>6</th>
+      <th>7</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% @users.each do |user| %>
+
+      <tr style="background-color: <%= cycle('#FFffFF','FFff99') %>">
+        <td><%= user.name %></td>
+
+        <td><td><div class="cardbody"><div  class="wrapper"><div class="inner"><div class="front"><textarea cols="10" rows="6" name="meaning"  style="font-size:20px;color:#fff;background-color:#05aafa;text-align:center;">answer</textarea></div><div class="back"><textarea cols="10" rows="6" name="meaning" id="meaning" style="font-size:20px;color:#fff;background-color:#05aafa;text-align:center;"><%= user.email %></textarea></div></div></div></div></td></td>
+
+        <td><%= user.value1 %></td>
+        <td><%= user.value2 %></td>
+        <td><div class="field" >
+           <%= user.value3+user.value1 %>
+           </div>
+        </td>
+        <td><%= Time.now.strftime('%m月%d日%H時%M分') %></td>
+        <td><%= ((Time.now - user.updated_at)/3600).round(1)  %></td>
+        <td><%= link_to 'Show', user %></td>
+        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+
+      <%= form_with(model: user) do |form| %>
+          <div class="field" >
+          
+          <%= form.label :問題  %>
+          <%= form.text_field :name, id: :user_name %>
+
+          <%= form.label :解答 %>
+          <%= form.text_field :email, id: :user_email %>
+            <label><%= form.radio_button :value1 ,'◯', id: :user_value1 %>◯</label>
+            <label><%= form.radio_button :value1 ,'△', id: :user_value1 %>△</label>
+            <label><%= form.radio_button :value1 ,'x', id: :user_value1 %>x</label>
+            <label><%= form.radio_button :value1 ,'-', id: :user_value1,checked: "checked" %>-</label>
+            </div>
+
+
+            <div class="field" >
+            <label><%= form.radio_button :value2 ,@time, id: :form_value2, :checked => true %>@time</label>
+            <label><%= form.label :history %>
+            <%= form.text_field :value3, value:  user.value3 + user.value1 , id: :user_value3 %></label>
+            </div>
+
+    <div class="actions">
+      <%= form.submit %>
+
+    </div>
+    <% end %> 
+          
+          
+
+        </td>
+
+
+    
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>

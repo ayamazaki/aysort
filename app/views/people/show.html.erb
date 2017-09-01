@@ -1,0 +1,162 @@
+<p id="notice"><%= notice %></p>
+
+
+  <strong>プロフィール</strong>
+<p>
+  <strong>Name:</strong>
+  <%= @person.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @person.email %>
+</p>
+
+<p>
+  <strong>単語数:</strong>
+<%= @people.microposts.count %>
+</p>
+<br>
+<br>
+
+<% if  current_person?(@person) %>
+  <strong>新規単語作成</strong>
+
+<%= form_for(@micropost) do |f| %>
+  <div class="field">
+  <%= f.text_area :question, placeholder: "新しい問題を入力" %>
+  </div>
+  <%= f.text_area :answer, placeholder: "新しい解答を入力" %>
+
+  <%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>
+
+<% end %>
+
+
+
+<%
+=begin
+%>
+
+
+<%= render @microposts %>
+
+
+<%
+=end
+%>
+
+<br>
+<br>
+<strong>検索欄</strong>
+
+<div> 
+<%= form_tag(current_person, method: "get") do %>
+<%= label_tag :question, "問題文検索" %><%= text_field_tag :question, params[:question] %>
+<%= submit_tag "検索" %>
+<% end %>
+</div>
+
+<div>
+<%= form_tag(current_person, method: "get") do %>
+<%= label_tag :result, "正解不正解検索" %>
+<%= select_tag :result, options_for_select({'◯'=>'◯','△'=>'△','x'=>'x','-'=>'-'}), include_blank: true %>
+<%= submit_tag "検索" %>
+<% end %>
+</div>
+
+<div>
+<%= form_tag(current_person, method: "get") do %>
+<%= label_tag :succession, "2回連◯/△/xなやつ検索" %>
+<%= select_tag :succession, options_for_select({'◯'=>'◯','△'=>'△','x'=>'x','-'=>'-'}), include_blank: true %>
+<%= submit_tag "検索" %>
+<% end %>
+</div>
+
+<div>
+<%= form_tag(current_person, method: "get") do %>
+<div class="field">
+<%= label_tag :past, "最近やってないもの検索" %>
+<%= text_field_tag :past ,@time4 %>
+</div>
+<%= submit_tag "検索" %>
+<% end %>
+</div>
+<br>
+<br>
+
+<strong>単語一覧</strong>
+<table>
+  <thead>
+    <tr>
+      <th>問題</th>
+      <th>解答</th>
+      <th>value1</th>
+      <th>value2</th>
+      <th>正解不正解</th>
+      <th>最終演習時刻</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+
+<% @microposts.each do |post| %>
+<tr>
+<td><%= post.question %></td>
+
+
+<td><td><div class="cardbody"><div  class="wrapper"><div class="inner"><div class="front"><textarea cols="10" rows="6" name="meaning"  style="font-size:20px;color:#fff;background-color:#05aafa;text-align:center;">answer</textarea></div><div class="back"><textarea cols="10" rows="6" name="meaning" id="meaning" style="font-size:20px;color:#fff;background-color:#05aafa;text-align:center;"><%= post.answer %></textarea></div></div></div></div></td></td>
+
+<td><td><div class="cardbody"><div  class="wrapper"><div class="inner"><div class="front" style="font-size:20px;color:#fff;background-color:#05aafa;text-align:center;">answer</div><div class="back"><textarea cols="10" rows="6" name="meaning" id="meaning" style="font-size:20px;color:#fff;background-color:#05aafa;text-align:center;"><%= post.answer %></textarea></div></div></div></div></td></td>
+
+<% %{post.value3}+%{post.value1} %>
+
+<td><%= post.value1 %></td>
+<td><%= post.value2 %></td>
+<td><%= ((Time.now - post.updated_at)/3600).round(1)  %></td>
+<td><%= post.value3.to_s + post.value1.to_s %></td>
+
+<% if  current_person?(@person) %>
+<td><%= link_to 'Edit', edit_micropost_path(post) %></td>
+<td><%= link_to 'Back', people_path %></td>
+<td>
+<%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+</td>
+
+
+<td>
+
+      <%= form_for(post)  do |form| %>
+          <div class="field" >
+          <%= form.label :問題 %>
+          <%= form.text_field :question, id: :micropost_question  %>
+
+          <%= form.label :解答 %>
+          <%= form.text_field :answer %>
+            <label><%= form.radio_button :value1 ,'◯', id: :micropost_value1 %>◯</label>
+            <label><%= form.radio_button :value1 ,'△' %>△</label>
+            <label><%= form.radio_button :value1 ,'x' %>x</label>
+            <label><%= form.radio_button :value1 ,'-',checked: "checked" %>-</label>
+            <label>
+            <%= form.text_field :value3, value: post.value3.to_s + post.value1.to_s %></label>            
+            <label><%= form.radio_button :value2 ,@time, :checked => true %>@time</label>
+            
+            </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+    <% end %> 
+    </td>
+    <% end %>
+
+    </tr>
+
+        <% end %>
+   </tbody>
+</table>
+
+
+
